@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fraud-detection-api-ingress
+  namespace: default
+  annotations:
+    # Аннотации для Yandex Cloud
+    ingress.alb.yc.io/subnets: "ваши-subnet-ids"
+    ingress.alb.yc.io/security-groups: "ваши-security-groups"
+    ingress.alb.yc.io/external-ipv4: "ваш-внешний-ip"
+    # Для nginx ingress
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: fraud-api.example.com  # Замените на ваш домен
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fraud-detection-api
+            port:
+              number: 8000
+  # Для Yandex Application Load Balancer
+  # Укажите ваш класс Ingress
+  # ingressClassName: yc-alb

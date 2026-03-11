@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: default
+
+resources:
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+commonLabels:
+  app: fraud-detection-api
+  environment: production
+
+images:
+  - name: ghcr.io/ваш-логин/fraud-detection-api
+    newTag: latest
+
+configMapGenerator:
+  - name: fraud-detection-api-config
+    literals:
+      - MODEL_PATH=/app/model.pkl
+      - API_VERSION=1.0.0
+      - LOG_LEVEL=INFO
