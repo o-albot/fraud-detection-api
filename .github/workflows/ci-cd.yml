@@ -5,7 +5,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch:  # Ручной запуск
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -31,8 +31,9 @@ jobs:
 
       - name: Start API container
         run: |
-          docker-compose up -d
-          sleep 10  # Ждем запуска
+          # Используем docker compose (без дефиса) вместо docker-compose
+          docker compose up -d
+          sleep 10
 
       - name: Run tests
         run: |
@@ -40,7 +41,7 @@ jobs:
 
       - name: Stop containers
         if: always()
-        run: docker-compose down
+        run: docker compose down
 
   build-and-push:
     needs: test
@@ -72,8 +73,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
             type=sha,format=long
             type=raw,value=latest
 
