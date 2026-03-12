@@ -15,4 +15,8 @@ REST API для детекции мошеннических транзакций
 ## Docker образ
 
 ```bash
-docker pull ghcr.io/ВАШ-ЛОГИН/fraud-detection-api:latest
+docker pull ghcr.io/o-albot/fraud-detection-api:latest
+
+# Fraud Detection API
+
+![CI/CD Pipeline](https://github.com/o-albot/fraud-detection-api/actions/workflows/ci-cd.yml/badge.svg)
